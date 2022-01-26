@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+
+import requests,bs4, sys
+
+pkg = sys.argv[1]
+
+repos = ["https://builds.garudalinux.org/repos/chaotic-aur/x86_64/",'https://asia.mirror.pkgbuild.com/community/os/x86_64/', 'https://asia.mirror.pkgbuild.com/core/os/x86_64/', 'https://asia.mirror.pkgbuild.com/extra/os/x86_64/']
+avpkgs = []
+
+for repo in repos:
+    r = requests.get(repo)
+    html = bs4.BeautifulSoup(r.text, 'lxml')
+    for link in html.findAll('a'):
+        if pkg in link.get('href'):
+            avpkgs.append(repo+link.get('href'))
+
+for i in avpkgs:
+    print(i)
