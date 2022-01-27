@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+import requests, bs4, sys
+
+r = requests.get("https://linuix-app-api.vercel.app/api/softwares")
+
+data = r.json()
+for d in data:
+    dl = d['downloadLink']
+    r = requests.get(dl)
+    if r.status_code == 404:
+        print(f"Package {dl} out of date")
+    elif dl == "undefined":
+        print("URL not assigned!")
+    else:
+        pass

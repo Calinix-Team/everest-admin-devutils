@@ -16,4 +16,4 @@ rootuser () {
 
 rootuser
 chmod +x bin/*
-cp +x bin/* /usr/local/bin/
+cp bin/* /usr/local/bin/
