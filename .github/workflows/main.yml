@@ -1,8 +1,7 @@
 name: Check regularity
 on:
   schedule:
-    - cron: "*/2 * * * *"
-
+    - cron: 0 * * * *
 
 jobs:
   Build:
