@@ -21,4 +21,5 @@ jobs:
       - run: pip install requests
       - run: pacman-key --init
       - run: bash devready.sh
+      - run: pacman -Sy
       - run: ./bin/comparepkgs
