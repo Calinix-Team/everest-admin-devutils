@@ -1,16 +1,31 @@
 #!/usr/bin/env python3
 
-import requests, bs4, sys
+import requests, bs4, sys, subprocess, json
 
 r = requests.get("https://linuix-app-api.vercel.app/api/softwares")
 
 data = r.json()
 for d in data:
     dl = d['downloadLink']
-    r = requests.get(dl)
-    if r.status_code == 404:
-        print(f"Package {dl} out of date")
-    elif dl == "undefined":
-        print("URL not assigned!")
-    else:
-        pass
+    nm = dl.split('/')[-1]
+    pkg = nm.split('-')[0]
+    pkg = pkg.replace('&', '-')
+    sb = subprocess.Popen(f"pacman -Si {pkg} | grep -Po '^Version\s*: \K.+'", shell=True, stdout=subprocess.PIPE)
+    sr = sb.stdout.read()
+    sr = sr.decode('utf-8')
+    sr = sr.replace('\n', '')
+    oldv = nm.split('-')[1]+"-"+nm.split('-')[2]
+    ndl = dl.replace(oldv, sr)
+    d['downloadLink'] = ndl
+    print("New Url: "+ndl)
+    inputr = {
+            "downloadLink": ndl,
+            "email": "admin@calinix.tech"
+        }
+
+    print("Sending request to "+d["title"]+"...")
+    url = "https://linuix-app-api.vercel.app/api/softwares/" + d["_id"]
+    r = requests.put(url, data=json.dumps(inputr))
+
+r = requests.get("https://linuix-app-api.vercel.app/api/softwares")
+print(r.text)
