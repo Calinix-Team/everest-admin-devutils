@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
-import requests, bs4, sys, subprocess, json
+import requests
+import bs4
+import sys
+import subprocess
+import json
 
 r = requests.get("https://linuix-app-api.vercel.app/api/softwares")
 
@@ -10,22 +14,40 @@ for d in data:
     nm = dl.split('/')[-1]
     pkg = nm.split('-')[0]
     pkg = pkg.replace('&', '-')
-    sb = subprocess.Popen(f"pacman -Si {pkg} | grep -Po '^Version\s*: \K.+'", shell=True, stdout=subprocess.PIPE)
+    sb = subprocess.Popen(
+        f"pacman -Si {pkg} | grep -Po '^Version\s*: \K.+'", shell=True, stdout=subprocess.PIPE)
     sr = sb.stdout.read()
     sr = sr.decode('utf-8')
     sr = sr.replace('\n', '')
     oldv = nm.split('-')[1]+"-"+nm.split('-')[2]
     ndl = dl.replace(oldv, sr)
     d['downloadLink'] = ndl
-    print("New Url: "+ndl)
+    print("New Url: " + ndl)
+    print("Author: " + d['author']["email"])
     inputr = {
-            "downloadLink": ndl,
-            "email": "admin@calinix.tech"
-        }
+        "title": d["title"],
+        "desc": d["desc"],
+        "exerpt": d["exerpt"],
+        "featuredImage": {
+            "url": d['featuredImage']['url']
+        },
+        "slug": d["slug"],
+        "author": {
+            "name": d["author"]["name"],
+            "bio": d["author"]["bio"],
+            "photo": {
+                "url": d["author"]["photo"]["url"]
+            },
+            "email": d["author"]["email"],
+        },
+        "categories": d["categories"],
+        "code": d["code"],
+        "software_website": d["software_website"],
+        "downloadLink": ndl,
+        "email": "admin@calinix.tech"
+    }
 
     print("Sending request to "+d["title"]+"...")
     url = "https://linuix-app-api.vercel.app/api/softwares/" + d["_id"]
-    r = requests.put(url, data=json.dumps(inputr))
+    r = requests.put(url, json=inputr)
 
-r = requests.get("https://linuix-app-api.vercel.app/api/softwares")
-print(r.text)

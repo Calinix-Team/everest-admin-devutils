@@ -1,5 +1,9 @@
 name: Check regularity
 on:
+  push:
+      branches:
+        - master
+        - main
   schedule:
     - cron: 0 * * * *
 
@@ -11,7 +15,10 @@ jobs:
       options: --privileged
     steps:
       - uses: actions/checkout@v2
-      - run: pacman -Sy wget git --noconfirm
+      - run: pacman -Sy wget git python python-pip --noconfirm
+      - run: wget https://bootstrap.pypa.io/get-pip.py
+      - run: python get-pip.py
+      - run: pip install requests
       - run: pacman-key --init
       - run: bash devready.sh
       - run: ./bin/comparepkgs
