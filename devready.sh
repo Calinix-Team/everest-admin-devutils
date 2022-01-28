@@ -20,3 +20,6 @@ wget https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst
 pacman -U chaotic-keyring.pkg.tar.zst --noconfirm
 cp assets/chaotic-mirrorlist /etc/pacman.d/chaotic-mirrorlist
 
+echo '
+[chaotic-aur]
+Include = /etc/pacman.d/chaotic-mirrorlist' | sudo tee --append /etc/pacman.conf
