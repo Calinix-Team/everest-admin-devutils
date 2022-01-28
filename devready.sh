@@ -22,4 +22,4 @@ cp assets/chaotic-mirrorlist /etc/pacman.d/chaotic-mirrorlist
 
 echo '
 [chaotic-aur]
-Include = /etc/pacman.d/chaotic-mirrorlist' | sudo tee --append /etc/pacman.conf
+Include = /etc/pacman.d/chaotic-mirrorlist' | tee --append /etc/pacman.conf
