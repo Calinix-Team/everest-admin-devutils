@@ -18,5 +18,5 @@ echo "Getting the latest chaotic mirrorlist"
 wget https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst
 wget https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst
 pacman -U chaotic-keyring.pkg.tar.zst --noconfirm
-cp archiso/airootfs/etc/pacman.d/chaotic-mirrorlist /etc/pacman.d/chaotic-mirrorlist
+cp assets/chaotic-mirrorlist /etc/pacman.d/chaotic-mirrorlist
 
