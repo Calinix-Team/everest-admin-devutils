@@ -40,7 +40,7 @@ for d in data:
         "categories": d["categories"],
         "code": d["code"],
         "software_website": d["software_website"],
-        "downloadLink": ndl.replace('&', '-'),
+        "downloadLink": ndl,
         "email": "admin@calinix.tech"
     }
 
