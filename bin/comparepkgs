@@ -18,8 +18,8 @@ for d in data:
     sr = sr.replace('\n', '')
     oldv = nm.split('-')[1]+"-"+nm.split('-')[2]
     ndl = dl.replace(oldv, sr)
-    d['downloadLink'] = ndl
-    print("New Url: " + ndl)
+    d['downloadLink'] = ndl.replace('&', '-')
+    print("New Url: " + ndl.replace('&', '-'))
     print("Author: " + d['author']["email"])
     inputr = {
         "title": d["title"],
@@ -40,7 +40,7 @@ for d in data:
         "categories": d["categories"],
         "code": d["code"],
         "software_website": d["software_website"],
-        "downloadLink": ndl,
+        "downloadLink": ndl.replace('&', '-'),
         "email": "admin@calinix.tech"
     }
 
